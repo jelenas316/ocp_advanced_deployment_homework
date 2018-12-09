@@ -9,7 +9,7 @@
   hosts: localhost
   tasks: 
     - name: "Script setup permision set.."
-      shell: chmod 755 ./scripts/script_setup.sh
+      shell: chmod -x ./scripts/script_setup.sh
     - name: "Setting up the scripts.."
       shell: ./scripts/script_setup.sh
 
@@ -33,7 +33,7 @@
   hosts: localhost
   tasks:
     - name: Generate Inventory script
-      script: ./scripts/generate_inventory.sh
+      script: chmod -x ./scripts/generate_inventory.sh ./scripts/generate_inventory.sh
 
 - name: Execute the openshift-ansible prerequisites
   import_playbook: /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml
@@ -77,6 +77,7 @@
   hosts: nfs
   tasks:
     - name: "Create PV directories and add them to be exported"
+      script:chmod -x ./scripts/create_pvs.sh 
       script: ./scripts/create_pvs.sh
     - name: Restarting NFS Server...
       shell: systemctl restart nfs-server
@@ -87,13 +88,15 @@
   hosts: localhost
   tasks:
     - name: "Creating the files.."
+      script: chmod 755 ./scripts/pvs_5Gsize.sh
       script: ./scripts/pvs_5Gsize.sh
   
 - name: Create 25 definitions files for PVs 10G size
   hosts: localhost
   tasks:
     - name: "Creating the files.."
-      script: ./scripts/pvs_10Gsize.sh
+      script:chmod 755 ./scripts/pvs_10Gsize.sh
+       script: ./scripts/pvs_10Gsize.sh
 
 - name: Create all PVs from definitions files
   hosts: localhost
@@ -122,11 +125,11 @@
     - name: Permissions..
       shell: sed -i -e 's/\r$//' /root/openshift-cd-demo/scripts/provision.sh
     - name: Adding permissions
-      shell: chmod 755 /root/openshift-cd-demo/scripts/provision.sh
+      shell: chmod -x /root/openshift-cd-demo/scripts/provision.sh
     - name: permiissions..
       shell: sed -i -e 's/\r$//' /root/openshift-cd-demo/cicd-template.yaml
     - name: Adding rest of permissions
-      shell: chmod 755 /root/openshift-cd-demo/cicd-template.yaml   
+      shell: chmod -x /root/openshift-cd-demo/cicd-template.yaml   
     - name: Provision the demo environment..
       shell: /root/openshift-cd-demo/scripts/provision.sh --user andrew deploy
   tags:
