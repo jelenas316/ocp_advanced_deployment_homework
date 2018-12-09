@@ -77,7 +77,7 @@
   hosts: nfs
   tasks:
     - name: "Create PV directories and add them to be exported"
-      script:chmod -x ./scripts/create_pvs.sh 
+      script: chmod -x ./scripts/create_pvs.sh 
       script: ./scripts/create_pvs.sh
     - name: Restarting NFS Server...
       shell: systemctl restart nfs-server
@@ -95,7 +95,7 @@
   hosts: localhost
   tasks:
     - name: "Creating the files.."
-      script:chmod 755 ./scripts/pvs_10Gsize.sh
+      script: chmod 755 ./scripts/pvs_10Gsize.sh
        script: ./scripts/pvs_10Gsize.sh
 
 - name: Create all PVs from definitions files
