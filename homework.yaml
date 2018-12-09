@@ -9,7 +9,7 @@
   hosts: localhost
   tasks: 
     - name: "Script setup permision set.."
-      shell: chmod -x ./scripts/script_setup.sh
+      shell: chmod 755 ./scripts/script_setup.sh
     - name: "Setting up the scripts.."
       shell: ./scripts/script_setup.sh
 
@@ -33,7 +33,7 @@
   hosts: localhost
   tasks:
     - name: Generate Inventory script
-      script: chmod -x ./scripts/generate_inventory.sh ./scripts/generate_inventory.sh
+      script: ./scripts/generate_inventory.sh
 
 - name: Execute the openshift-ansible prerequisites
   import_playbook: /usr/share/ansible/openshift-ansible/playbooks/prerequisites.yml
@@ -77,7 +77,6 @@
   hosts: nfs
   tasks:
     - name: "Create PV directories and add them to be exported"
-      script: chmod -x ./scripts/create_pvs.sh 
       script: ./scripts/create_pvs.sh
     - name: Restarting NFS Server...
       shell: systemctl restart nfs-server
@@ -88,14 +87,12 @@
   hosts: localhost
   tasks:
     - name: "Creating the files.."
-      shell: chmod 755 ./scripts/pvs_5Gsize.sh
       script: ./scripts/pvs_5Gsize.sh
   
 - name: Create 25 definitions files for PVs 10G size
   hosts: localhost
   tasks:
     - name: "Creating the files.."
-      shell: chmod 755 ./scripts/pvs_10Gsize.sh
       script: ./scripts/pvs_10Gsize.sh
 
 - name: Create all PVs from definitions files
@@ -110,7 +107,7 @@
     - name: "pull the recycler image"
       shell: docker pull registry.access.redhat.com/openshift3/ose-recycler:latest
     - name: "tag the recycler image for specific version"
-      shell: docker tag registry.access.redhat.com/openshift3/ose-recycler:latest registry.access.redhat.com/openshift3/ose-recycler:v3.11.43
+      shell: docker tag registry.access.redhat.com/openshift3/ose-recycler:latest registry.access.redhat.com/openshift3/ose-recycler:v3.11.16
   tags:
     - fixnfs
 
@@ -125,11 +122,11 @@
     - name: Permissions..
       shell: sed -i -e 's/\r$//' /root/openshift-cd-demo/scripts/provision.sh
     - name: Adding permissions
-      shell: chmod -x /root/openshift-cd-demo/scripts/provision.sh
+      shell: chmod 755 /root/openshift-cd-demo/scripts/provision.sh
     - name: permiissions..
       shell: sed -i -e 's/\r$//' /root/openshift-cd-demo/cicd-template.yaml
     - name: Adding rest of permissions
-      shell: chmod -x /root/openshift-cd-demo/cicd-template.yaml   
+      shell: chmod 755 /root/openshift-cd-demo/cicd-template.yaml   
     - name: Provision the demo environment..
       shell: /root/openshift-cd-demo/scripts/provision.sh --user andrew deploy
   tags:
@@ -183,7 +180,6 @@
   hosts: masters
   tasks:
     - name: Adding users for alpha and beta
-      shell: chmod 755 ./sccipts/add-users.sh
       script: ./scripts/add-users.sh
   tags:
     - create_users
@@ -196,7 +192,7 @@
   hosts: localhost
   tasks:
     - name: Wait for the demo environment to fully spin up
-      shell: sleep 600 
+      shell: sleep 300 
     - name: Kick off the pipeline
       shell: "oc start-build tasks-pipeline -n tasks-dev"
   tags:
