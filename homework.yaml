@@ -88,14 +88,14 @@
   hosts: localhost
   tasks:
     - name: "Creating the files.."
-      script: chmod 755 ./scripts/pvs_5Gsize.sh
+      shell: chmod 755 ./scripts/pvs_5Gsize.sh
       script: ./scripts/pvs_5Gsize.sh
   
 - name: Create 25 definitions files for PVs 10G size
   hosts: localhost
   tasks:
     - name: "Creating the files.."
-      script: chmod 755 ./scripts/pvs_10Gsize.sh
+      shell: chmod 755 ./scripts/pvs_10Gsize.sh
       script: ./scripts/pvs_10Gsize.sh
 
 - name: Create all PVs from definitions files
@@ -183,6 +183,7 @@
   hosts: masters
   tasks:
     - name: Adding users for alpha and beta
+      shell: chmod 755 ./sccipts/add-users.sh
       script: ./scripts/add-users.sh
   tags:
     - create_users
