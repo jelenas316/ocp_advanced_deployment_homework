@@ -96,7 +96,7 @@
   tasks:
     - name: "Creating the files.."
       script: chmod 755 ./scripts/pvs_10Gsize.sh
-       script: ./scripts/pvs_10Gsize.sh
+      script: ./scripts/pvs_10Gsize.sh
 
 - name: Create all PVs from definitions files
   hosts: localhost
@@ -195,7 +195,7 @@
   hosts: localhost
   tasks:
     - name: Wait for the demo environment to fully spin up
-      shell: sleep 300 
+      shell: sleep 600 
     - name: Kick off the pipeline
       shell: "oc start-build tasks-pipeline -n tasks-dev"
   tags:
